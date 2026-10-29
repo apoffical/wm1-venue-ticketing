@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cedar Hall | Ticket Selection</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <h1 id="venue-name">Cedar Hall Auditorium</h1>
+        <p id="venue-summery">Loading venue...</p>
+    </header>
+
+    <main class="layout">
+        <section class="panel map-panel" aria-labelledby="map-title">
+            <h2 id="map-title">Venue Map</h2>
+
+            <div class="map-toolbar" role="group" aria-label="Map controls">
+                <button type="button" class="btn" data-action="zoom-in">Zoom In (+)</button>
+                <button type="button" class="btn" data-action="zoom-out">Zoom Out (&minus;)</button>
+                <button type="button" class="btn" data-action="move-up">&uarr; Up</button>
+                <button type="button" class="btn" data-action="move-down">&darr; Down</button>
+                <button type="button" class="btn" data-action="move-left">&larr; Left</button>
+                <button type="button" class="btn" data-action="move-right">&rarr; Right</button>
+                <button type="button" class="btn" data-action="reset-view">Reset / Center</button>
+            </div>
+
+            <div class="map-viewport" id="map-viewport">
+                <div class="map-canvas" id="map-canvas">
+                    <div class="stage">STAGE</div>
+                    <div class="seat-map" id="seat-map">
+                        <p class="map-placeholder">The seat map will be generated here from JavaScript data.</p>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="legend" id="legend" aria-label="Price categories and seat states"></ul>
+        </section>
+
+        <aside class="side-panel">
+            <section class="panel" id="seat-details" aria-labelledby="details-title" aria-live="polite">
+                <h2 id="details-title">Seat details</h2>
+                <p class="hint" id="details-hint">Click a seat on the map to inspect it.</p>
+                <dl class="details-list">
+                    <dt>Seat</dt> <dd id="detail-seat">&ndash;</dd>
+                    <dt>Zone</dt> <dd id="detail-zone">&ndash;</dd>
+                    <dt>Row</dt> <dd id="detail-row">&ndash;</dd>
+                    <dt>Number</dt> <dd id="detail-number">&ndash;</dd>
+                    <dt>Category</dt> <dd id="detail-category">&ndash;</dd>
+                    <dt>Price</dt> <dd id="detail-price">&ndash;</dd>
+                    <dt>Status</dt> <dd id="detail-status">&ndash;</dd>
+                </dl>
+                <button type="button" class="btn btn--primary btn--block" id="add-to-cart" disabled>ADD TO CART</button>
+            </section>
+
+            <section class="panel" id="cart" aria-labelledby="cart-title">
+                <h2 id="cart-title">Your cart</h2>
+                <p class="hint" id="cart-empty">Your cart is empty.</p>
+                <ul class="cart-list" id="cart-list"></ul>
+                <p class="cart-total">Total: <strong id="cart-total">$0.00</strong></p>
+            </section>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <p>Web &amp; Mobile 1 project.</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
