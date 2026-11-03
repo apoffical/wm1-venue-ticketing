@@ -39,4 +39,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   renderVenueSummary();
   renderLegend();
+  renderSeatMap();
 });
