@@ -45,4 +45,5 @@ document.addEventListener("DOMContentLoaded", () => {
   refreshSeatStates();
   renderSeatDetails();
   initSeatInteraction();
+  initMapControls();
 });

@@ -90,6 +90,7 @@ h1, h2 {
 .btn--primary { background: var(--accent); border-color: var(--accent); color: #1a1400; font-weight: 700; }
 .btn--primary:hover:not(:disabled) { background: #f0b800; }
 .btn--block { width: 100%; }
+.btn.is-limit { opacity: 0.45; cursor: not-allowed; }
 
 .map-toolbar { 
     display: flex; 
@@ -99,21 +100,27 @@ h1, h2 {
 }
 .map-viewport {
   position: relative;
-  overflow: auto; 
+  overflow: hidden;
   height: clamp(320px, 60vh, 640px);
   background: #0f1116;
   border: 1px solid var(--panel-border);
   border-radius: 8px;
 }
 .map-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: max-content;
-  min-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 24px;
   padding: 12px;
   transform-origin: 0 0;
+}
+.map-canvas.is-ready { transition: transform 0.15s ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .map-canvas.is-ready { transition: none; }
 }
 .stage {
   width: 420px;
