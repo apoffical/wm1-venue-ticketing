@@ -27,6 +27,8 @@ function renderLegend() {
   Object.values(CATEGORIES).forEach((category) => {
     legend.append(createLegendItem("", `${category.label} - ${formatPrice(category.price)}`, category.color));
   });
+  legend.append(createLegendItem("legend__swatch--inspected", "Inspected"));
+  legend.append(createLegendItem("legend__swatch--in-cart", "In cart"));
   legend.append(createLegendItem("legend__swatch--unavailable", "Unavailable"));
 }
 
@@ -40,4 +42,5 @@ document.addEventListener("DOMContentLoaded", () => {
   renderVenueSummary();
   renderLegend();
   renderSeatMap();
+  refreshSeatStates();
 });

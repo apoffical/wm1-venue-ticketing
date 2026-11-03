@@ -49,3 +49,23 @@ function renderSeatMap() {
   container.innerHTML = "";
   Object.keys(BLOCKS).forEach((blockKey) => container.append(createBlock(blockKey)));
 }
+
+function describeSeat(seat, seatState) {
+  return `Seat ${seat.id}, ${seat.blockLabel}, row ${seat.row}, number ${seat.number}, ` +
+         `${seat.categoryLabel}, ${formatPrice(seat.price)}, ${STATE_LABELS[seatState]}`;
+}
+
+function refreshSeatStates() {
+  document.querySelectorAll(".seat").forEach((button) => {
+    const seat = SEAT_BY_ID.get(button.dataset.seatId);
+    const seatState = getSeatState(seat);
+    button.dataset.state = seatState;
+    button.setAttribute("aria-label", describeSeat(seat, seatState));
+    button.setAttribute("aria-disabled", String(seatState === "unavailable"));
+    if (state.inspectedSeatId === seat.id) {
+      button.setAttribute("aria-current", "true");
+    } else {
+      button.removeAttribute("aria-current");
+    }
+  });
+}
