@@ -69,3 +69,56 @@ function refreshSeatStates() {
     }
   });
 }
+
+function setDetail(id, text) {
+  document.getElementById(id).textContent = text;
+}
+
+function renderSeatDetails() {
+  const seat = SEAT_BY_ID.get(state.inspectedSeatId);
+  const hint = document.getElementById("details-hint");
+  const status = document.getElementById("detail-status");
+  const addButton = document.getElementById("add-to-cart");
+
+  if (!seat) {
+    ["seat", "zone", "row", "number", "category", "price", "status"].forEach((name) => {
+      setDetail(`detail-${name}`, "\u2013");
+    });
+    status.dataset.status = "";
+    hint.textContent = "Click a seat on the map to inspect it.";
+    addButton.disabled = true;
+    return;
+  }
+
+  const seatState = getSeatState(seat);
+  setDetail("detail-seat", seat.id);
+  setDetail("detail-zone", seat.zoneName);
+  setDetail("detail-row", seat.row);
+  setDetail("detail-number", seat.number);
+  setDetail("detail-category", seat.categoryLabel);
+  setDetail("detail-price", formatPrice(seat.price));
+  setDetail("detail-status", STATE_LABELS[seatState]);
+  status.dataset.status = seatState;
+
+  if (seatState === "unavailable") {
+    hint.textContent = "This seat is unavailable and cannot be added.";
+  } else if (seatState === "in-cart") {
+    hint.textContent = "This seat is already in your cart.";
+  } else {
+    hint.textContent = "Review the details, then press ADD TO CART.";
+  }
+  addButton.disabled = !canAddToCart(seat);
+}
+
+function inspectSeat(seatId) {
+  state.inspectedSeatId = seatId;
+  refreshSeatStates();
+  renderSeatDetails();
+}
+
+function initSeatInteraction() {
+  document.getElementById("seat-map").addEventListener("click", (event) => {
+    const button = event.target.closest(".seat");
+    if (button) inspectSeat(button.dataset.seatId);
+  });
+}

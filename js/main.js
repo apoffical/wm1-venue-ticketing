@@ -43,4 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderLegend();
   renderSeatMap();
   refreshSeatStates();
+  renderSeatDetails();
+  initSeatInteraction();
 });
