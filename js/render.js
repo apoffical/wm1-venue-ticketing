@@ -122,3 +122,58 @@ function initSeatInteraction() {
     if (button) inspectSeat(button.dataset.seatId);
   });
 }
+
+function createCartItem(seat) {
+  const item = document.createElement("li");
+  item.className = "cart-item";
+  item.style.setProperty("--seat-color", CATEGORIES[seat.category].color);
+
+  const title = document.createElement("span");
+  title.className = "cart-item__title";
+  title.textContent = `Seat ${seat.id}`;
+
+  const price = document.createElement("span");
+  price.className = "cart-item__price";
+  price.textContent = formatPrice(seat.price);
+
+  const meta = document.createElement("span");
+  meta.className = "cart-item__meta";
+  meta.textContent = `${seat.zoneName} | Row ${seat.row}, Seat ${seat.number} | ${seat.categoryLabel}`;
+
+  const remove = document.createElement("button");
+  remove.type = "button";
+  remove.className = "btn btn--small";
+  remove.textContent = "Remove";
+  remove.dataset.removeSeatId = seat.id;
+  remove.setAttribute("aria-label", `Remove seat ${seat.id} from the cart`);
+
+  item.append(title, price, meta, remove);
+  return item;
+}
+
+function renderCart() {
+  const seats = getCartSeats();
+  const list = document.getElementById("cart-list");
+  list.innerHTML = "";
+  seats.forEach((seat) => list.append(createCartItem(seat)));
+  document.getElementById("cart-empty").hidden = seats.length > 0;
+  document.getElementById("cart-count").textContent = seats.length;
+  document.getElementById("cart-total").textContent = formatPrice(getCartTotal());
+}
+
+function refreshUI() {
+  refreshSeatStates();
+  renderSeatDetails();
+  renderCart();
+}
+
+function initCartInteraction() {
+  document.getElementById("add-to-cart").addEventListener("click", () => {
+    if (addSeatToCart(state.inspectedSeatId)) refreshUI();
+  });
+
+  document.getElementById("cart-list").addEventListener("click", (event) => {
+    const button = event.target.closest("[data-remove-seat-id]");
+    if (button && removeSeatFromCart(button.dataset.removeSeatId)) refreshUI();
+  });
+}

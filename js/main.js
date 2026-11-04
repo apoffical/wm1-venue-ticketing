@@ -42,8 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderVenueSummary();
   renderLegend();
   renderSeatMap();
-  refreshSeatStates();
-  renderSeatDetails();
+  refreshUI();
   initSeatInteraction();
+  initCartInteraction();
   initMapControls();
 });

@@ -54,10 +54,11 @@
                 <button type="button" class="btn btn--primary btn--block" id="add-to-cart" disabled>ADD TO CART</button>
             </section>
 
-            <section class="panel" id="cart" aria-labelledby="cart-title">
+            <section class="panel" id="cart" aria-labelledby="cart-title" aria-live="polite">
                 <h2 id="cart-title">Your cart</h2>
                 <p class="hint" id="cart-empty">Your cart is empty.</p>
                 <ul class="cart-list" id="cart-list"></ul>
+                <p class="cart-count">Tickets: <strong id="cart-count">0</strong></p>
                 <p class="cart-total">Total: <strong id="cart-total">$0.00</strong></p>
             </section>
         </aside>
