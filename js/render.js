@@ -176,4 +176,9 @@ function initCartInteraction() {
     const button = event.target.closest("[data-remove-seat-id]");
     if (button && removeSeatFromCart(button.dataset.removeSeatId)) refreshUI();
   });
+   window.addEventListener("storage", (event) => {
+    if (event.key !== CART_STORAGE_KEY) return;
+    state.cartSeatIds = loadCart();
+    refreshUI();
+  });
 }
