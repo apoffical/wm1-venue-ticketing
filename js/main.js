@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     console.log(`Venue OK: ${SEATS.length} seats generated.`);
   }
+  state.cartSeatIds = loadCart();  
   renderVenueSummary();
   renderLegend();
   renderSeatMap();
