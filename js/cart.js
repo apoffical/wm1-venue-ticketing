@@ -1,5 +1,7 @@
 const CART_STORAGE_KEY = "cedarHall.cart.v1";
 
+let storageWorks = true;
+
 function addSeatToCart(seatId) {
   const seat = SEAT_BY_ID.get(seatId);
   if (!seat || !canAddToCart(seat)) return false;
@@ -27,12 +29,13 @@ function getCartTotal() {
 function saveCart() {
   try {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify({ version: 1, seatIds: state.cartSeatIds }));
+    storageWorks = true;
   } catch (error) {
+    storageWorks = false;
     console.warn("The cart could not be saved:", error);
   }
 }
 
-// Reads the saved cart. Anything wrong with the saved data is ignored, so the page never breaks.
 function loadCart() {
   try {
     const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
@@ -40,7 +43,6 @@ function loadCart() {
     const valid = [];
     saved.seatIds.forEach((id) => {
       const seat = SEAT_BY_ID.get(id);
-      // keep only seats that still exist, are still available and are not repeated
       if (seat && seat.available && !valid.includes(id)) valid.push(id);
     });
     return valid;

@@ -159,6 +159,7 @@ function renderCart() {
   document.getElementById("cart-empty").hidden = seats.length > 0;
   document.getElementById("cart-count").textContent = seats.length;
   document.getElementById("cart-total").textContent = formatPrice(getCartTotal());
+  document.getElementById("storage-warning").hidden = storageWorks;
 }
 
 function refreshUI() {

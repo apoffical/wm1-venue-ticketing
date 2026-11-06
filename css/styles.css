@@ -339,3 +339,10 @@ h1, h2 {
   .map-toolbar .btn { padding: 6px 8px; font-size: 0.85rem; }
   .map-viewport { height: clamp(300px, 55vh, 480px); }
 }
+
+.hint--warning { 
+  padding: 8px 10px; 
+  color: #ffd9a0; 
+  background: #3a2c14; 
+  border-radius: 8px; 
+}
