@@ -73,17 +73,19 @@ function applyView() {
   updateMapControls();
 }
 
-function zoomBy(factor) {
-  const { viewport } = mapElements();
-  const centerX = viewport.clientWidth / 2;
-  const centerY = viewport.clientHeight / 2;
+function zoomAt(factor, pointX, pointY) {
   const newScale = clamp(view.scale * factor, getMinScale(), MAX_SCALE);
   const ratio = newScale / view.scale;
-  view.x = centerX - (centerX - view.x) * ratio;
-  view.y = centerY - (centerY - view.y) * ratio;
+  view.x = pointX - (pointX - view.x) * ratio;
+  view.y = pointY - (pointY - view.y) * ratio;
   view.scale = newScale;
   view.isFit = false;
   applyView();
+}
+
+function zoomBy(factor) {
+  const { viewport } = mapElements();
+  zoomAt(factor, viewport.clientWidth / 2, viewport.clientHeight / 2);
 }
 
 function moveBy(dx, dy) {
@@ -122,4 +124,25 @@ function initMapControls() {
   });
     resetView();
   requestAnimationFrame(() => mapElements().canvas.classList.add("is-ready"));
+}
+
+function viewportPoint(event) {
+  const { viewport } = mapElements();
+  const rect = viewport.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left - viewport.clientLeft,
+    y: event.clientY - rect.top - viewport.clientTop
+  };
+}
+
+function initMouseNavigation() {
+  const { viewport } = mapElements();
+
+  viewport.addEventListener("wheel", (event) => {
+    event.preventDefault(); 
+    const lineHeight = event.deltaMode === 1 ? 16 : 1;
+    const factor = Math.exp(-event.deltaY * lineHeight * 0.0015);
+    const point = viewportPoint(event);
+    zoomAt(factor, point.x, point.y);
+  }, { passive: false });
 }
