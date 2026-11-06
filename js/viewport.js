@@ -4,6 +4,7 @@ const MAX_FIT_SCALE = 2;
 const ZOOM_FACTOR = 1.25;   
 const PAN_STEP = 80;        
 const PAN_SLACK = 0.5;   
+const DRAG_THRESHOLD = 5; 
 
 const view = { scale: 1, x: 0, y: 0, isFit: true };
 
@@ -137,6 +138,8 @@ function viewportPoint(event) {
 
 function initMouseNavigation() {
   const { viewport } = mapElements();
+  let drag = null;          
+  let suppressClick = false; 
 
   viewport.addEventListener("wheel", (event) => {
     event.preventDefault(); 
@@ -145,4 +148,43 @@ function initMouseNavigation() {
     const point = viewportPoint(event);
     zoomAt(factor, point.x, point.y);
   }, { passive: false });
+
+  viewport.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0 || event.pointerType === "touch") return;
+    drag = { startX: event.clientX, startY: event.clientY, originX: view.x, originY: view.y, active: false };
+  });
+
+  viewport.addEventListener("pointermove", (event) => {
+    if (!drag) return;
+    const dx = event.clientX - drag.startX;
+    const dy = event.clientY - drag.startY;
+    if (!drag.active) {
+      if (Math.hypot(dx, dy) < DRAG_THRESHOLD) return; 
+      drag.active = true;
+      viewport.setPointerCapture(event.pointerId);
+      viewport.classList.add("is-dragging");
+    }
+    view.x = drag.originX + dx;
+    view.y = drag.originY + dy;
+    view.isFit = false;
+    applyView();
+  });
+
+  function endDrag() {
+    if (drag && drag.active) {
+      suppressClick = true;
+      setTimeout(() => { suppressClick = false; }, 0);
+      viewport.classList.remove("is-dragging");
+    }
+    drag = null;
+  }
+  viewport.addEventListener("pointerup", endDrag);
+  viewport.addEventListener("pointercancel", endDrag);
+
+  viewport.addEventListener("click", (event) => {
+    if (suppressClick) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+  }, true);
 }

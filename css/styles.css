@@ -106,6 +106,17 @@ h1, h2 {
   background: #0f1116;
   border: 1px solid var(--panel-border);
   border-radius: 8px;
+  cursor: grab;
+  user-select: none;
+}
+.map-viewport.is-dragging { 
+  cursor: grabbing; 
+}
+.map-viewport.is-dragging .map-canvas { 
+  transition: none; 
+}
+.map-viewport.is-dragging .seat { 
+  cursor: grabbing; 
 }
 .map-canvas {
   position: absolute;
