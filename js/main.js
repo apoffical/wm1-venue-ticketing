@@ -47,4 +47,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initSeatInteraction();
   initCartInteraction();
   initMapControls();
+  initMouseNavigation();
 });

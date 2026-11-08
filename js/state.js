@@ -1,6 +1,6 @@
 const state = {
-  inspectedSeatId: null, // the seat currently shown in the details panel
-  cartSeatIds: []        // seats in the cart (filled in Week 3)
+  inspectedSeatId: null, 
+  cartSeatIds: []        
 };
 
 const STATE_LABELS = {
